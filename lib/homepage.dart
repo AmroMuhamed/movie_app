@@ -13,17 +13,22 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   var movieList = <Map>[];
+  var newmovieList = <Map>[];
+  var carsuollist=<Map>[];
   var comedyList = <Map>[];
   var adventureList = <Map>[];
   var horrorList = <Map>[];
   bool test = false;
+  bool checklabel=false;
   WidgetMarker selectedWidgetMarker = WidgetMarker.Home;
+  TextEditingController searchtxt;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
+    searchtxt= TextEditingController();
     movieList = [
       {
         'moviename': 'Bad boys for life',
@@ -139,6 +144,7 @@ class HomePageState extends State<HomePage> {
         'actorsname': {'Andrea Riseborough', 'Demian Bichir'},
       }
     ];
+    carsuollist=movieList;
     for (int i = 0; i < movieList.length; i++) {
       String mystr = movieList[i]['Genre'];
       if (mystr.toLowerCase().contains('comedy')) comedyList.add(movieList[i]);
@@ -157,73 +163,152 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
+        actions: <Widget>[
+          (test!=true)?Expanded(
+            child:  Container(
+              padding: EdgeInsets.all(10),
+              height: double.maxFinite,
+              width: double.maxFinite,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(50,0,60,0),
+                child:  TextFormField(
+                  controller: searchtxt,
+                  decoration: InputDecoration(
+                    labelText: (checklabel!=true)? 'Search': '',
+                    enabled: true ,
+                    icon: Icon(Icons.search,color: Colors.white.withOpacity(0.3),),
+                    labelStyle: TextStyle(
+                      color: Colors.black.withOpacity(0.7),
+                      fontSize: 18,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(width: 1,color: Colors.black),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(width: 1,color: Colors.black),
+                    ),
+
+                  ),
+                  style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),
+                  onTap: (){
+                    setState(() {
+
+                      newmovieList=movieList;
+
+                      checklabel=true;
+                    });
+                  },
+                  onChanged: (value)
+                  {
+                    movieList=[];
+                    String mystr2=searchtxt.text.toString().toLowerCase();
+                    setState(() {
+                      if(mystr2=='')
+                      {
+                        movieList=newmovieList;
+                      }
+                      else
+                      {
+
+                        for (int i=0;i<newmovieList.length;i++)
+                        {
+                          String mystr =newmovieList[i]['moviename'].toString().toLowerCase();
+                          if(mystr.startsWith(mystr2)) {
+                            movieList.add(newmovieList[i]);
+
+                          }
+                        }
+                      }
+
+
+                    });
+                  },
+                ),
+
+              ),
+            ),):Container()
+        ],
       ),
+      bottomNavigationBar: Container(
+        color: Colors.black.withOpacity(.7),
+        height: 50,
+        child:  Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Divider(
+              color: Colors.white,
+              height: .3,
+            ),
+            Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(
+                        onTap: () {
+                          setState(() {
+                            test = false;
+                            selectedWidgetMarker = WidgetMarker.Home;
+                          });
+                        },
+                        child: Text(
+                          "Home",
+                          style: TextStyle(color: Colors.white, fontSize: 22),
+                          textAlign: TextAlign.center,
+                        )),
+                    Container(
+                      width: 80,
+                      child: (test != true)
+                          ? Divider(
+                        color: Colors.amber,
+                        height: .3,
+                      )
+                          : null,
+                    ),
+                  ],
+                )),
+            Padding(
+              padding: EdgeInsets.all(10),
+            ),
+            Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(
+                        onTap: () {
+                          setState(() {
+                            test = true;
+                            selectedWidgetMarker = WidgetMarker.Category;
+                          });
+                        },
+                        child: Text(
+                          "Category",
+                          style: TextStyle(color: Colors.white, fontSize: 22),
+                          textAlign: TextAlign.center,
+                        )),
+                    Container(
+                      width: 80,
+                      child: (test == true)
+                          ? Divider(
+                        color: Colors.amber,
+                        height: .3,
+                      )
+                          : null,
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      )
+      ,
       body: Container(
         color: Colors.black,
+
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(60, 5, 60, 5),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Column(
-                    children: <Widget>[
-                      InkWell(
-                          onTap: () {
-                            setState(() {
-                              test = false;
-                              selectedWidgetMarker = WidgetMarker.Home;
-                            });
-                          },
-                          child: Text(
-                            "Home",
-                            style: TextStyle(color: Colors.white, fontSize: 22),
-                            textAlign: TextAlign.center,
-                          )),
-                      Container(
-                        width: 80,
-                        child: (test != true)
-                            ? Divider(
-                                color: Colors.amber,
-                                height: .3,
-                              )
-                            : null,
-                      ),
-                    ],
-                  )),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                  ),
-                  Expanded(
-                      child: Column(
-                    children: <Widget>[
-                      InkWell(
-                          onTap: () {
-                            setState(() {
-                              test = true;
-                              selectedWidgetMarker = WidgetMarker.Category;
-                            });
-                          },
-                          child: Text(
-                            "Category",
-                            style: TextStyle(color: Colors.white, fontSize: 22),
-                            textAlign: TextAlign.center,
-                          )),
-                      Container(
-                        width: 80,
-                        child: (test == true)
-                            ? Divider(
-                                color: Colors.amber,
-                                height: .3,
-                              )
-                            : null,
-                      ),
-                    ],
-                  )),
-                ],
-              ),
-            ),
             Expanded(
               child: FutureBuilder(
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -253,7 +338,7 @@ class HomePageState extends State<HomePage> {
     final double itemWidth = size.width / 2;
 
     return Container(
-      child: Column(
+      child: ListView(
         children: <Widget>[
           Divider(
             color: Colors.white,
@@ -303,7 +388,7 @@ class HomePageState extends State<HomePage> {
                       context,
                       new MaterialPageRoute(
                           builder: (context) =>
-                              movieDetails(movieList[position])));
+                              movieDetails(carsuollist[position])));
                 },
                 animationCurve: Curves.fastOutSlowIn,
                 animationDuration: Duration(milliseconds: 1000),
@@ -325,7 +410,7 @@ class HomePageState extends State<HomePage> {
             padding: EdgeInsets.all(5),
           ),
           Container(
-            height: 300,
+            height: 320,
             color: Colors.black,
             child: Container(
               child: GridView.builder(

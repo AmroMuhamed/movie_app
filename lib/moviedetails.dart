@@ -39,147 +39,166 @@ class movieDetailsState extends State<movieDetails> {
       ),
       body: Container(
         color: Colors.black.withOpacity(.9),
-        child: Stack(
+        child: ListView(
           children: <Widget>[
-        ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
-            child:
-            Image.asset(
-              widget.movieList['moviepic'],
-              width: double.infinity,
-              height: 200,
-              fit: BoxFit.fill,
-            ),),
-            Padding(padding: EdgeInsets.fromLTRB(0,10,0,0),child: Column(
+            Stack(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 150, 0, 0),
-                ),
-                Row(
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child:
+                  Image.asset(
+                    widget.movieList['moviepic'],
+                    width: double.infinity,
+                    height: 200,
+                    fit: BoxFit.fill,
+                  ),),
+                Padding(padding: EdgeInsets.fromLTRB(0,10,0,0),child: Column(
                   children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                        child: Container(
-                          height: 170,
-                          width: 120,
-                          child:ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),child: Image.asset(
-                            widget.movieList['moviepicc'],
-                            fit: BoxFit.fill,
-                          ),),
-                        )),
-                    Expanded(
-                      child: ListTile(
-                          title: Text(
-                            widget.movieList['moviename'],
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.amber),
+                      padding: EdgeInsets.fromLTRB(0, 150, 0, 0),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                            child: Container(
+                              height: 170,
+                              width: 120,
+                              child:ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),child: Image.asset(
+                                widget.movieList['moviepicc'],
+                                fit: BoxFit.fill,
+                              ),),
+                            )),
+                        Expanded(
+                          child: ListTile(
+                              title: Text(
+                                widget.movieList['moviename'],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.amber),
+                              ),
+                              subtitle: Text(
+                                widget.movieList['moviedes'],
+                                style: TextStyle(color: Colors.white, fontSize: 10),
+                              )),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: FlatButton.icon(
+                              onPressed: () {},
+                              icon: Icon(Icons.add_circle_outline),
+                              label: Text("Download"),
+                              color: Colors.amber,
+                            ),
                           ),
-                          subtitle: Text(
-                            widget.movieList['moviedes'],
-                            style: TextStyle(color: Colors.white, fontSize: 10),
-                          )),
-                    )
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                          ),
+                          Expanded(
+                            child: FlatButton.icon(
+                              onPressed: () {
+
+                              },
+                              icon: Icon(Icons.play_arrow),
+
+                              label: Text("Play now"),
+                              color: Colors.red,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Divider(
+                        color: Colors.white,
+                        height: .3,
+                      ),
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
+                              child: Text(
+                                "MOVIE INFO",
+                                style: TextStyle(
+                                    color: Colors.amber,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding (
+                          padding: EdgeInsets.fromLTRB(20, 0, 5, 3),
+                          child: Text(
+                            "Rating: ${widget.movieList['Rating']}",textAlign: TextAlign.left,
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                        ),
+
+                        Container(
+                          child:Padding(
+                            padding: EdgeInsets.fromLTRB(20, 0, 0, 3),
+                            child: Text(
+                              "Genre:	${widget.movieList['Genre']}",textAlign: TextAlign.left,
+                              style: TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                          ),
+                          alignment: Alignment.topLeft,
+                        ),
+                        Container(
+                          child: Padding(
+
+                            padding: EdgeInsets.fromLTRB(20, 0, 0, 5  ),
+                            child: Text(
+                              "Runtime:	${widget.movieList['Runtime']}",textAlign: TextAlign.left,
+                              style: TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                          ),
+                          alignment: Alignment.topLeft,
+                        ),
+                        Row(
+                          children: <Widget>[
+
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
+                              child: Text(
+                                "Cast",
+                                style: TextStyle(
+                                    color: Colors.amber,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          color: Colors.black12,
+                          height: 255,
+                          alignment: Alignment.center,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (_, index) => DynamicWidget(mypics.elementAt(index),actorname.elementAt(index)),
+                            itemCount: mypics.length,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: FlatButton.icon(
-                          onPressed: () {},
-                          icon: Icon(Icons.add_circle_outline),
-                          label: Text("Download"),
-                          color: Colors.amber,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                      ),
-                      Expanded(
-                        child: FlatButton.icon(
-                          onPressed: () {
+                ),),
 
-                       },
-                          icon: Icon(Icons.play_arrow),
-
-                          label: Text("Play now"),
-                          color: Colors.red,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Divider(
-                    color: Colors.white,
-                    height: .3,
-                  ),
-                ),
-                Expanded(
-                  child: ListView(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
-                        child: Text(
-                          "MOVIE INFO",
-                          style: TextStyle(
-                              color: Colors.amber,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 3),
-                        child: Text(
-                          "Rating: ${widget.movieList['Rating']}",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 3),
-                        child: Text(
-                          "Genre:	${widget.movieList['Genre']}",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 5  ),
-                        child: Text(
-                          "Runtime:	${widget.movieList['Runtime']}",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
-                        child: Text(
-                          "Cast",
-                          style: TextStyle(
-                              color: Colors.amber,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        color: Colors.black12,
-                        height: 255,
-                        alignment: Alignment.center,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (_, index) => DynamicWidget(mypics.elementAt(index),actorname.elementAt(index)),
-                          itemCount: mypics.length,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
-            ),),
-
+            ),
           ],
         ),
       ),
@@ -209,7 +228,7 @@ class DynamicWidget extends StatelessWidget {
               child:ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),child: Image.asset(
                pics,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
 
               ),),
             ),
